@@ -127,4 +127,22 @@ class PolicyControllerTest {
         mockMvc.perform(delete("/api/policies/" + id))
             .andExpect(status().isNotFound());
     }
+
+    @Test
+    void shouldGetPoliciesByIds() throws Exception {
+        UUID id1 = UUID.randomUUID();
+        UUID id2 = UUID.randomUUID();
+        List<Policy> policies = List.of(
+            new Policy(id1, "Acme Corp", LocalDate.of(2024, 12, 31), 100000.00),
+            new Policy(id2, "Globex Corp", LocalDate.of(2024, 12, 31), 200000.00)
+        );
+        when(policyService.getPoliciesByIds(List.of(id1, id2))).thenReturn(policies);
+
+        mockMvc.perform(get("/api/policies/by-ids")
+                .param("ids", id1.toString(), id2.toString()))
+            .andExpect(status().isOk())
+            .andExpect(jsonPath("$.length()").value(2))
+            .andExpect(jsonPath("[0].id").value(id1.toString()))
+            .andExpect(jsonPath("[1].id").value(id2.toString()));
+    }
 } 

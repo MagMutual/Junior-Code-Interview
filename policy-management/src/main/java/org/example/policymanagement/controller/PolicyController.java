@@ -85,6 +85,13 @@ public class PolicyController {
         return policyService.getAllPolicies();
     }
 
+    @GetMapping("/by-ids")
+    @Operation(summary = "Get multiple policies by their IDs")
+    @ApiResponse(responseCode = "200", description = "List of found policies")
+    public List<Policy> getPoliciesByIds(@RequestParam List<UUID> ids) {
+        return policyService.getPoliciesByIds(ids);
+    }
+
     @DeleteMapping("/{id}")
     @Operation(summary = "Delete a policy")
     @ApiResponses({

@@ -58,6 +58,13 @@ public class PolicyService {
             .orElse(false);
     }
 
+    public List<Policy> getPoliciesByIds(List<UUID> ids) {
+        if (ids == null || ids.isEmpty()) {
+            throw new PolicyValidationException("Policy IDs list cannot be null or empty");
+        }
+        return policyRepository.findByIds(ids);
+    }
+
     private void validateCreatePolicy(String businessName, LocalDate coveragePeriod, double coverageAmount) {
         if (!StringUtils.hasText(businessName)) {
             throw new PolicyValidationException("Business name is required");

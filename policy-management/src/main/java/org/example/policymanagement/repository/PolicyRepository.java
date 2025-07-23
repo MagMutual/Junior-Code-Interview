@@ -71,4 +71,13 @@ public class PolicyRepository {
     public void deleteById(UUID id) {
         jdbcTemplate.update(DELETE_POLICY, id);
     }
+
+    public List<Policy> findByIds(List<UUID> ids) {
+        if (ids == null || ids.isEmpty()) {
+            return List.of();
+        }
+        String inSql = String.join(",", java.util.Collections.nCopies(ids.size(), "?"));
+        String sql = "SELECT id, business_name, coverage_period, coverage_amount FROM policies WHERE id IN (" + inSql + ")";
+        return jdbcTemplate.query(sql, policyMapper, ids.toArray());
+    }
 } 

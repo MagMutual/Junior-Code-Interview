@@ -56,6 +56,7 @@
  - `PUT /api/policies/{id}` - Update an existing policy
  - `DELETE /api/policies/{id}` - Delete a policy
  - `GET /api/policies` - List all policies
+ - `GET /api/policies/by-ids?ids=<id1>&ids=<id2>&...` - Get multiple policies by their IDs
  
  ## Testing
  
